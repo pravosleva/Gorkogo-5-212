@@ -1,0 +1,9 @@
+.fa-arrow-left, .fa-arrow-right,
+.fa-chevron-left, .fa-chevron-right
+{
+	position: absolute;
+	top: 50%;
+	z-index: 5;
+	display: inline-block;
+	margin-top: -10px;
+}

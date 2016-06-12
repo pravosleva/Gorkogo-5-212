@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>ЖКХ | Расчет стоимости услуг</title>
+
+	<!-- bootstrap tools -->
+	<link rel="stylesheet" href="./bootstrap/dist/3.3.6/css/bootstrap.min.css" />
+	<script src="./bootstrap/dist/jquery/1.11.3/jquery.min.js"></script>
+	<script src="./bootstrap/dist/3.3.6/js/bootstrap.min.js"></script>
+
+	<!-- Класс с расчетом -->
+	<script src="./class-test/js-class-counters-calculation.js"></script>
+
+	<script type="text/javascript">
+		var data;
+
+		//	Получаем данные из обновляемого файла data.json
+		//setData('http://selection4test.ru/HCS/Fryazino/Gorkogo-5-212/data.json');
+		setData('./data.json');
+		function setData(path){
+			//	example1:
+			function reqListenerRs () {
+				if(this.status == 200) {
+					console.log(this.responseText);
+					window.data = JSON.parse(this.responseText);
+				}
+			}
+			var oReq = new XMLHttpRequest();
+			oReq.addEventListener("load", reqListenerRs);
+			oReq.open("GET", path, false);	// `false` makes the request synchronous
+			oReq.send();
+
+			//	example2: Sync
+			/*
+			var request = new XMLHttpRequest();
+			request.open('GET', path, false);  // `false` makes the request synchronous
+			request.send(null);
+
+			if (request.status === 200) {
+				console.log(this.responseText);
+				window.data = JSON.parse(this.responseText);
+			}
+			*/
+		}
+
+	</script>
+
+	<!-- Custom styling -->
+	<link rel="stylesheet" href="./bootstrap/style-custom.css" />
+	<link rel="stylesheet" href="./bootstrap/sticky-footer.css" />
+
+	<!-- Chart -->
+	<script src="./features/js/chart_custom_by_pravosleva.js"></script>
+
+	<style>
+		body{margin-top: 65px; overflow-x: hidden;}
+	</style>
+</head>
+<body>
+
+	<!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href=""></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav pull-right">
+					<li>
+						<a href="http://selection4test.ru/HCS/cover/" onfocus="this.blur();">
+							Short version
+						</a>
+					</li>
+                    <li>
+						<a data-toggle="modal" data-target="#myModal" style="cursor:pointer;" onfocus="this.blur();">
+							Google map
+						</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+	<center>
+		<div id="pageTitle"><h3>The pageTitle must be there...</h3></div>
+	</center>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-7">
+				<!-- Accordion -->
+				<div class="panel-group" id="accordion">
+					<div id="COLLAPSES"></div>
+				</div>
+			</div>
+
+			<div class="col-md-5 col-sm-12">
+				<div style="margin-bottom:20px;">
+					<!-- Slider -->
+					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
+					  <!-- Wrapper for slides -->
+					  <div class="carousel-inner" role="listbox">
+						<div class="item active">
+						  <img id="img0" src="./counters/earth1.gif" alt="Фото отсутствует" style="width:50%; margin:0 auto;">
+						  <div class="carousel-caption" id="img0_descr"></div>
+						</div>
+						<div class="item">
+						  <img id="img1" src="./counters/earth1.gif" alt="Фото отсутствует" style="width:50%; margin:0 auto;">
+						  <div class="carousel-caption" id="img1_descr"></div>
+						</div>
+						<div class="item">
+						  <img id="img2" src="./counters/earth1.gif" alt="Фото отсутствует" style="width:50%; margin:0 auto;">
+						  <div class="carousel-caption" id="img2_descr"></div>
+						</div>
+						<div class="item">
+						  <img id="img3" src="./counters/earth1.gif" alt="Фото отсутствует" style="width:50%; margin:0 auto;">
+						  <div class="carousel-caption" id="img3_descr"></div>
+						</div>
+						<div class="item">
+						  <img id="img4" src="./counters/earth1.gif" alt="Фото отсутствует" style="width:50%; margin:0 auto;">
+						  <div class="carousel-caption" id="img4_descr"></div>
+						</div>
+						<div class="item">
+						  <img id="img5" src="./counters/earth1.gif" alt="Фото отсутствует" style="width:50%; margin:0 auto;">
+						  <div class="carousel-caption" id="img5_descr"></div>
+						</div>
+						<div class="item">
+						  <img id="img6" src="./counters/earth1.gif" alt="Фото отсутствует" style="width:50%; margin:0 auto;">
+						  <div class="carousel-caption" id="img6_descr"></div>
+						</div>
+					  </div>
+
+					  <!-- Controls -->
+					  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+						<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					  </a>
+					  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+						<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					  </a>
+					</div>
+				</div>
+
+				<div id='ALERTS'></div>
+
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+
+		$( document ).ready(function() {
+			document.getElementById('pageTitle').innerHTML = '<h3>' + data['pageTitle'] + '</h3>';
+
+			//alert(data["tarifs"].length);
+			//	Создаем столько разметок, сколько тарифов в переменной data (массив tarifs):
+			var createCollapses = "";
+			for(var i=0; i<data['tarifs'].length; i++){//в рамках каждого тарифа
+				createCollapses +=
+				'<div class="panel panel-default">'+
+					'<div class="panel-heading">' +
+						'<h4 class="panel-title">' +
+							'<strong><a data-toggle="collapse" data-parent="#accordion" href="#collapse'+i+'">' + data['tarifs'][i]['header'] + '</a></strong>'+
+						'</h4>' +
+					'</div>' +
+				'<div id="collapse'+i+'" class="panel-collapse collapse">' +
+
+				'<div class="panel-body">' +
+					'<table class="table table-hover table-responsive">' +
+						'<thead>' +
+							'<tr>' +
+								'<td>' +
+									'<strong>Статья расхода</strong>' +
+								'</td>' +
+								'<td>' +
+									'<strong>Показание счетчика<br />' +
+									'<input class="custom-input-info" id="date1_'+i+'" readonly /></strong>' +
+								'</td>' +
+								'<td>' +
+									'<strong>Тариф, руб.</strong>' +
+								'</td>' +
+								'<td>' +
+									'<strong>Показание счетчика<br />' +
+									'<input class="custom-input-info" id="date2_'+i+'" readonly /></strong>' +
+								'</td>' +
+								'<td>' +
+									'<strong>Расчетная сумма, руб.</strong>' +
+								'</td>' +
+							'</tr>' +
+						'</thead>' +
+						'<tbody>' +
+							'<tr>' +
+								'<td>' +
+									'ХОЛОДНОЕ В/C ИТУ' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input" id="start_holodnoe_vs_itu_'+i+'" />' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input" id="tarif_holodnoe_vs_itu_'+i+'" />' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input" id="finish_holodnoe_vs_itu_'+i+'" />' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input-result" id="RUB_holodnoe_vs_itu_'+i+'" readonly />' +
+								'</td>' +
+							'</tr>' +
+							'<tr>' +
+								'<td>' +
+									'ГОРЯЧЕЕ В/C ИТУ' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input" id="start_gorya4ee_vs_itu_'+i+'" />' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input" id="tarif_gorya4ee_vs_itu_'+i+'" />' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input" id="finish_gorya4ee_vs_itu_'+i+'" />' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input-result" id="RUB_gorya4ee_vs_itu_'+i+'" readonly />' +
+								'</td>' +
+							'</tr>' +
+							'<tr>' +
+								'<td>' +
+									'ГОРЯЧЕЕ В/С (подогрев) ИТУ *' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input-unvisible" id="start_gorya4ee_vs_podogrev_itu_'+i+'" readonly />' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input" id="tarif_gorya4ee_vs_podogrev_itu_'+i+'" />' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input" id="finish_gorya4ee_vs_podogrev_itu_'+i+'" />' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input-result" id="RUB_gorya4ee_vs_podogrev_itu_'+i+'" readonly />' +
+								'</td>' +
+							'</tr>' +
+							'<tr>' +
+								'<td>' +
+									'ЭЛЕКТРОСНАБЖЕНИЕ ИТУ' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input" id="start_electrosnab_itu_'+i+'" />' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input" id="tarif_electrosnab_itu_'+i+'" />' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input" id="finish_electrosnab_itu_'+i+'" />' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input-result" id="RUB_electrosnab_itu_'+i+'" readonly />' +
+								'</td>' +
+							'</tr>' +
+							'<tr>' +
+								'<td>' +
+									'ВОДООТВЕДЕНИЕ' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input-unvisible" id="start_vodootved_'+i+'" readonly />' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input" id="tarif_vodootved_'+i+'" />' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input-result" id="finish_vodootved_'+i+'" readonly />' +
+								'</td>' +
+								'<td>' +
+									'<input class="custom-input-result" id="RUB_vodootved_'+i+'" readonly />' +
+								'</td>' +
+							'</tr>' +
+							'<tr>' +
+								'<td>' +
+									'ОПЛАЧЕНО ЗА ПРЕДЫДУЩИЕ МЕСЯЦЫ' +
+								'</td>' +
+								'<td></td>' +
+								'<td></td>' +
+								'<td></td>' +
+								'<td>' +
+									'<input class="custom-input" id="RUB_opla4eno_'+i+'" />' +
+								'</td>' +
+							'</tr>' +
+							'<tr>' +
+								'<td>' +
+									'<strong>СУММА К ОПЛАТЕ</strong>' +
+								'</td>' +
+								'<td></td>' +
+								'<td></td>' +
+								'<td></td>' +
+								'<td>' +
+									'<strong><input class="custom-input-result" id="RUB_'+i+'" readonly /></strong>' +
+								'</td>' +
+							'</tr>' +
+						'</tbody>' +
+					'</table>' +
+				  '</div>' +
+				'</div>' +
+			  '</div>';
+			}
+			document.getElementById('COLLAPSES').innerHTML = createCollapses;
+
+			//	Фиксируем показания счетчиков и тарифы: заполняем поля с исходными данными
+			var expenses = [
+				'date1',
+				'start_holodnoe_vs_itu',
+				'start_gorya4ee_vs_itu',
+				'start_gorya4ee_vs_podogrev_itu',
+				'start_electrosnab_itu',
+				'start_vodootved',
+				'tarif_holodnoe_vs_itu',
+				'tarif_gorya4ee_vs_itu',
+				'tarif_gorya4ee_vs_podogrev_itu',
+				'tarif_electrosnab_itu',
+				'tarif_vodootved',
+				'date2',
+				'finish_holodnoe_vs_itu',
+				'finish_gorya4ee_vs_itu',
+				'finish_gorya4ee_vs_podogrev_itu',
+				'finish_electrosnab_itu',
+				'RUB_opla4eno'
+			];
+			for(var i=0; i<data['tarifs'].length; i++){//в рамках каждого тарифа
+				for(var j=0; j<expenses.length; j++){//для каждой статьи расходов
+					$('#collapse'+i).find('#'+expenses[j]+'_'+i).val(data['tarifs'][i][expenses[j]]);
+				}
+			}
+
+			//	Расчитываем и заполняем зависящие [от исходных данных] поля, используя класс countersCalculator:
+			for(var i=0; i<data['tarifs'].length; i++){//в рамках каждого тарифа
+				updateAll(i);
+			}
+			function updateAll(tarif_number){
+				console.time('updateAll');
+				$('#RUB_holodnoe_vs_itu_'+tarif_number).val(
+					countersCalculator.result(
+						$('#date1_'+tarif_number).val(),
+						$('#start_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#start_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#start_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#start_electrosnab_itu_'+tarif_number).val(),
+						$('#start_vodootved_'+tarif_number).val(),
+						$('#tarif_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#tarif_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#tarif_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#tarif_electrosnab_itu_'+tarif_number).val(),
+						$('#tarif_vodootved_'+tarif_number).val(),
+						$('#date2_'+tarif_number).val(),
+						$('#finish_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#finish_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#finish_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#finish_electrosnab_itu_'+tarif_number).val(),
+						$('#RUB_opla4eno_'+tarif_number).val())
+					.RUB_holodnoe_vs_itu
+				);
+				$('#RUB_gorya4ee_vs_itu_'+tarif_number).val(
+					countersCalculator.result(
+						$('#date1_'+tarif_number).val(),
+						$('#start_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#start_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#start_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#start_electrosnab_itu_'+tarif_number).val(),
+						$('#start_vodootved_'+tarif_number).val(),
+						$('#tarif_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#tarif_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#tarif_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#tarif_electrosnab_itu_'+tarif_number).val(),
+						$('#tarif_vodootved_'+tarif_number).val(),
+						$('#date2_'+tarif_number).val(),
+						$('#finish_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#finish_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#finish_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#finish_electrosnab_itu_'+tarif_number).val(),
+						$('#RUB_opla4eno_'+tarif_number).val())
+					.RUB_gorya4ee_vs_itu
+				);
+				$('#RUB_gorya4ee_vs_podogrev_itu_'+tarif_number).val(
+					countersCalculator.result(
+						$('#date1_'+tarif_number).val(),
+						$('#start_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#start_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#start_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#start_electrosnab_itu_'+tarif_number).val(),
+						$('#start_vodootved_'+tarif_number).val(),
+						$('#tarif_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#tarif_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#tarif_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#tarif_electrosnab_itu_'+tarif_number).val(),
+						$('#tarif_vodootved_'+tarif_number).val(),
+						$('#date2_'+tarif_number).val(),
+						$('#finish_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#finish_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#finish_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#finish_electrosnab_itu_'+tarif_number).val(),
+						$('#RUB_opla4eno_'+tarif_number).val()
+					).RUB_gorya4ee_vs_podogrev_itu
+				);
+				$('#RUB_electrosnab_itu_'+tarif_number).val(
+					countersCalculator.result(
+						$('#date1_'+tarif_number).val(),
+						$('#start_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#start_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#start_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#start_electrosnab_itu_'+tarif_number).val(),
+						$('#start_vodootved_'+tarif_number).val(),
+						$('#tarif_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#tarif_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#tarif_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#tarif_electrosnab_itu_'+tarif_number).val(),
+						$('#tarif_vodootved_'+tarif_number).val(),
+						$('#date2_'+tarif_number).val(),
+						$('#finish_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#finish_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#finish_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#finish_electrosnab_itu_'+tarif_number).val(),
+						$('#RUB_opla4eno_'+tarif_number).val()
+					).RUB_electrosnab_itu
+				);
+				$('#RUB_vodootved_'+tarif_number).val(
+					countersCalculator.result(
+						$('#date1_'+tarif_number).val(),
+						$('#start_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#start_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#start_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#start_electrosnab_itu_'+tarif_number).val(),
+						$('#start_vodootved_'+tarif_number).val(),
+						$('#tarif_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#tarif_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#tarif_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#tarif_electrosnab_itu_'+tarif_number).val(),
+						$('#tarif_vodootved_'+tarif_number).val(),
+						$('#date2_'+tarif_number).val(),
+						$('#finish_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#finish_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#finish_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#finish_electrosnab_itu_'+tarif_number).val(),
+						$('#RUB_opla4eno_'+tarif_number).val()
+					).RUB_vodootved
+				);
+				$('#RUB_'+tarif_number).val(
+					countersCalculator.result(
+						$('#date1_'+tarif_number).val(),
+						$('#start_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#start_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#start_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#start_electrosnab_itu_'+tarif_number).val(),
+						$('#start_vodootved_'+tarif_number).val(),
+						$('#tarif_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#tarif_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#tarif_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#tarif_electrosnab_itu_'+tarif_number).val(),
+						$('#tarif_vodootved_'+tarif_number).val(),
+						$('#date2_'+tarif_number).val(),
+						$('#finish_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#finish_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#finish_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#finish_electrosnab_itu_'+tarif_number).val(),
+						$('#RUB_opla4eno_'+tarif_number).val()
+					).RUB
+				);
+				$('#finish_vodootved_'+tarif_number).val(
+					countersCalculator.result(
+						$('#date1_'+tarif_number).val(),
+						$('#start_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#start_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#start_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#start_electrosnab_itu_'+tarif_number).val(),
+						$('#start_vodootved_'+tarif_number).val(),
+						$('#tarif_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#tarif_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#tarif_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#tarif_electrosnab_itu_'+tarif_number).val(),
+						$('#tarif_vodootved_'+tarif_number).val(),
+						$('#date2_'+tarif_number).val(),
+						$('#finish_holodnoe_vs_itu_'+tarif_number).val(),
+						$('#finish_gorya4ee_vs_itu_'+tarif_number).val(),
+						$('#finish_gorya4ee_vs_podogrev_itu_'+tarif_number).val(),
+						$('#finish_electrosnab_itu_'+tarif_number).val(),
+						$('#RUB_opla4eno_'+tarif_number).val()
+					).finish_vodootved
+				);
+				console.timeEnd('updateAll');
+			}
+
+			//	Вешаем обработчики событий на влияющие поля (ниже массив с id = '#' + inputs[i] + '_' + i):
+			var inputs = [
+				'start_holodnoe_vs_itu',
+				'start_gorya4ee_vs_itu',
+				'start_electrosnab_itu',
+
+				'tarif_holodnoe_vs_itu',
+				'tarif_gorya4ee_vs_itu',
+				'tarif_gorya4ee_vs_podogrev_itu',
+				'tarif_electrosnab_itu',
+				'tarif_vodootved',
+
+				'finish_holodnoe_vs_itu',
+				'finish_gorya4ee_vs_itu',
+				'finish_gorya4ee_vs_podogrev_itu',
+				'finish_electrosnab_itu',
+
+				'RUB_opla4eno'
+			];
+			for(var i=0; i<data['tarifs'].length; i++){//в рамках каждого тарифа
+				for (var j = 0; j < inputs.length; j++){//для каждого влияющего на расчет поля
+
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+					 * Этот ошибочный код оставлен в целях наглядной демонстрации замыканий в js
+					 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+					//$('#collapse' + i).find('#' + inputs[j] + '_' + i).keyup(function(){updateAll(i);}); //это не работает, придется пока обойтись двумя строчками ниже(
+					//	С появлением нового тарифа добавьте строчку:
+					//$('#collapse0').find('#' + inputs[j] + '_' + i).keyup(function(){updateAll(0);});
+					//$('#collapse1').find('#' + inputs[j] + '_' + i).keyup(function(){updateAll(1);});
+
+					 */
+
+					$('#collapse' + i).find('#' + inputs[j] + '_' + i).keyup(function(index) { return function() { updateAll(index) }; }(i));
+				}
+			}
+
+			var createAlerts = "";
+			//	Диаграмма счетчиков (вода):
+			createAlerts +=
+				'<div class="alert alert-dismissible" role="alert" style="border:1px solid lightgray;">' +
+					'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+					'<strong>Потребление воды</strong>' +
+					'<p>Анализ разницы показаний счетчиков по итогам месяца (м<sup>3</sup>)</p>' +
+					'<div style="width:100%">' +
+						'<canvas id="canvas_water" height="100%" width="200"></canvas>' +
+					'</div>' +
+				'</div>';
+			//	ГОРЯЧЕЕ В/С (подогрев) ИТУ
+			if (typeof(data['counters']['state'][0]['hot_water_Gk']) != "undefined"){
+				createAlerts +=
+					'<div class="alert alert-dismissible" role="alert" style="border:1px solid lightgray;">' +
+						'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+						'<strong>ГОРЯЧЕЕ В/С (подогрев) ИТУ</strong>' +
+						'<p>Данные в соответствии с квитанцией (Гк)</p>' +
+						'<div style="width:100%">' +
+							'<canvas id="canvas_water_Gk" height="100%" width="200"></canvas>' +
+						'</div>' +
+					'</div>';
+			}else{console.log("data['counters']['state'][0]['hot_water_Gk'] не существует, график не будет построен...")}
+			//	Диаграмма счетчиков (электро):
+			createAlerts +=
+				'<div class="alert alert-dismissible" role="alert" style="border:1px solid lightgray;">' +
+					'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+					'<strong>Потребление электроэнергии</strong>' +
+					'<p>Анализ разницы показаний счетчика по итогам месяца (кВт&middot;ч)</p>' +
+					'<div style="width:100%">' +
+						'<canvas id="canvas_electro" height="100%" width="200"></canvas>' +
+					'</div>' +
+				'</div>';
+			//	Доп. оповещения: создаем столько, сколько их в файле data.json:
+			for(var i=0; i<data['alerts'].length; i++){//в рамках каждого тарифа
+				createAlerts +=
+					'<div class="alert alert-' + data['alerts'][i]['assignment'] + ' alert-dismissible" role="alert">' +
+						'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+						'<strong>' + data['alerts'][i]['header'] + '</strong>' +
+						'<p>' + data['alerts'][i]['body'] + '</p>' +
+					'</div>';
+			}
+			document.getElementById('ALERTS').innerHTML = createAlerts;
+
+			//--------------------- Chart.js -----------------
+			var labels_data = [];
+			var cold_water_data = [];
+			var hot_water_data = [];
+			var electro_data = [];
+			for (var i=1; i<data['counters']['state'].length; i++){
+				labels_data.push(data['counters']['state'][i-1]['data'] + '-' + data['counters']['state'][i]['data']);
+				cold_water_data.push(parseFloat(data['counters']['state'][i]['cold_water'] - data['counters']['state'][i-1]['cold_water']).toFixed(3));
+				hot_water_data.push(parseFloat(data['counters']['state'][i]['hot_water'] - data['counters']['state'][i-1]['hot_water']).toFixed(3));
+				electro_data.push(parseFloat(data['counters']['state'][i]['electro'] - data['counters']['state'][i-1]['electro']).toFixed(2));
+			}
+			var barChartData_water = {
+				labels : labels_data,
+				datasets : [
+					{
+						fillColor : '#71B7F0',
+						strokeColor : '#71B7F0',
+						highlightFill: '#71B7F0',
+						highlightStroke: '#71B7F0',
+						data : cold_water_data
+					},
+					{
+						fillColor : '#F9655B',
+						strokeColor : '#F9655B',
+						highlightFill : '#F9655B',
+						highlightStroke : '#F9655B',
+						data : hot_water_data
+					}
+				]
+			};
+
+			var labels_Gk_data = [];
+			var hot_water_Gk_data = [];
+			for(var i=0; i<data['counters']['state'].length; i++){
+				labels_Gk_data.push(data['counters']['state'][i]['data']);
+				hot_water_Gk_data.push(parseFloat(data['counters']['state'][i]['hot_water_Gk']).toFixed(4));
+			}
+			var barChartData_water_Gk = {
+				labels : labels_Gk_data,
+				datasets : [
+					{
+						fillColor : "rgba(172,194,132,0.2)",
+						strokeColor : "#F9655B",
+						pointColor : "#fff",
+						pointStrokeColor : "#F9655B",
+						data : hot_water_Gk_data
+					}
+				]
+			};
+
+			var barChartData_electro = {
+				labels : labels_data,
+				datasets : [
+					{
+						fillColor : '#F9655B',
+						strokeColor : '#F9655B',
+						highlightFill : '#F9655B',
+						highlightStroke : '#F9655B',
+						data : electro_data
+					}
+				]
+			}
+
+			var ctx_water = document.getElementById("canvas_water").getContext("2d");
+			window.myBar1 = new Chart(ctx_water).Bar(barChartData_water, {
+				responsive : true
+			});
+			var ctx_water_Gk = document.getElementById("canvas_water_Gk").getContext("2d");
+			window.myBar2 = new Chart(ctx_water_Gk).Line(barChartData_water_Gk, {
+				responsive : true
+			});
+			var ctx_electro = document.getElementById("canvas_electro").getContext("2d");
+			window.myBar3 = new Chart(ctx_electro).Bar(barChartData_electro, {
+				responsive : true
+			});
+			//------------------------------------------------
+
+			//---------- установка картинок в слайдер --------
+			for(var i=0; i<data['counters']['last_img'].length; i++){
+				$('#carousel-example-generic').find('#img' + i).attr("src", data['counters']['last_img'][i]['path']);
+				$('#carousel-example-generic').find('#img' + i).css("width", "100%");
+				$('#carousel-example-generic').find('#img' + i + '_descr').html('<strong>' + data['counters']['last_img'][i]['description'] + '</strong>');
+			}
+			//------------------------------------------------
+
+			//	Google map src
+			$('.modal-body').html("<iframe src='" + data['Google_map_src'] + "' width='100%' height='500' frameborder='0' style='border:0' allowfullscreen></iframe>");
+		});
+
+	</script>
+
+	<script>
+		$('.carousel').carousel({
+			interval: 20000
+		});
+	</script>
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document" style="width:90%;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Google map</h4>
+				</div>
+				<div class="modal-body">
+					<p>Google map must be there...</p>
+				</div>
+				<!--
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+				-->
+			</div>
+		</div>
+	</div>
+
+	<div id="footer">
+		<div class="container">
+			<p class="text-muted">2016</p>
+		</div>
+    </div>
+</body>
+</html>

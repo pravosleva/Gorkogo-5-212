@@ -1,0 +1,44 @@
+input{
+	width:100%;
+}
+.custom-input{
+	padding:1px;
+	display:block;
+	border:1px solid lightgray;
+	border-radius: 4px;
+	
+	outline-color:blue;
+}
+.custom-input-result{
+	padding:1px;
+	display:block;
+	border:none;
+	
+	outline-color:blue;
+	background:transparent;
+}
+.custom-input-info{
+	padding:1px;
+	display:block;
+	border:none;
+	text-align:center;
+	outline-color:blue;
+	background:transparent;
+}
+.custom-input-unvisible{
+	padding:1px;
+	border:none;
+	
+	outline-color:blue;
+	background:transparent;
+	
+	display:none;
+}
+table{
+	font-size: .9em;
+	/*max-width:800px; min-width:650px;*/
+	
+}
+table thead tr td{
+	text-align: center !important;
+}
