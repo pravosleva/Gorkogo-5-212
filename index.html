@@ -76,7 +76,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav pull-right">
-					<li>
+					<li style="display: none;">
 						<a href="http://selection4test.ru/HCS/cover/" onfocus="this.blur();">
 							Short version
 						</a>
@@ -538,134 +538,149 @@
 			}
 
 			var createAlerts = "";
-			//	Диаграмма счетчиков (вода):
-			createAlerts +=
-				'<div class="alert alert-dismissible" role="alert" style="border:1px solid lightgray;">' +
-					'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
-					'<strong>Потребление воды</strong>' +
-					'<p>Анализ разницы показаний счетчиков по итогам месяца (м<sup>3</sup>)</p>' +
-					'<div style="width:100%">' +
-						'<canvas id="canvas_water" height="100%" width="200"></canvas>' +
-					'</div>' +
-				'</div>';
-			//	ГОРЯЧЕЕ В/С (подогрев) ИТУ
-			if (typeof(data['counters']['state'][0]['hot_water_Gk']) != "undefined"){
+			var diagramsShow = false;
+			
+			if (data['diagrams']['visible'] == "true"){
+				diagramsShow = true;
+			
+				//	Диаграмма счетчиков (вода):
 				createAlerts +=
 					'<div class="alert alert-dismissible" role="alert" style="border:1px solid lightgray;">' +
 						'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
-						'<strong>ГОРЯЧЕЕ В/С (подогрев) ИТУ</strong>' +
-						'<p>Данные в соответствии с квитанцией (Гк)</p>' +
+						'<strong>Потребление воды</strong>' +
+						'<p>Анализ разницы показаний счетчиков по итогам месяца (м<sup>3</sup>)</p>' +
 						'<div style="width:100%">' +
-							'<canvas id="canvas_water_Gk" height="100%" width="200"></canvas>' +
+							'<canvas id="canvas_water" height="100%" width="200"></canvas>' +
 						'</div>' +
 					'</div>';
-			}else{console.log("data['counters']['state'][0]['hot_water_Gk'] не существует, график не будет построен...")}
-			//	Диаграмма счетчиков (электро):
-			createAlerts +=
-				'<div class="alert alert-dismissible" role="alert" style="border:1px solid lightgray;">' +
-					'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
-					'<strong>Потребление электроэнергии</strong>' +
-					'<p>Анализ разницы показаний счетчика по итогам месяца (кВт&middot;ч)</p>' +
-					'<div style="width:100%">' +
-						'<canvas id="canvas_electro" height="100%" width="200"></canvas>' +
-					'</div>' +
-				'</div>';
+			
+				//	ГОРЯЧЕЕ В/С (подогрев) ИТУ
+				if (typeof(data['counters']['state'][0]['hot_water_Gk']) != "undefined"){
+					createAlerts +=
+						'<div class="alert alert-dismissible" role="alert" style="border:1px solid lightgray;">' +
+							'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+							'<strong>ГОРЯЧЕЕ В/С (подогрев) ИТУ</strong>' +
+							'<p>Данные в соответствии с квитанцией (Гк)</p>' +
+							'<div style="width:100%">' +
+								'<canvas id="canvas_water_Gk" height="100%" width="200"></canvas>' +
+							'</div>' +
+						'</div>';
+				}else{console.log("data['counters']['state'][0]['hot_water_Gk'] не существует, график не будет построен...")};
+				
+				//	Диаграмма счетчиков (электро):
+				createAlerts +=
+					'<div class="alert alert-dismissible" role="alert" style="border:1px solid lightgray;">' +
+						'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+						'<strong>Потребление электроэнергии</strong>' +
+						'<p>Анализ разницы показаний счетчика по итогам месяца (кВт&middot;ч)</p>' +
+						'<div style="width:100%">' +
+							'<canvas id="canvas_electro" height="100%" width="200"></canvas>' +
+						'</div>' +
+					'</div>';
+			};
+			
 			//	Доп. оповещения: создаем столько, сколько их в файле data.json:
 			for(var i=0; i<data['alerts'].length; i++){//в рамках каждого тарифа
 				if(data['alerts'][i]['visible'] == "true"){
-					createAlerts +=
-						'<div class="alert alert-' + data['alerts'][i]['assignment'] + ' alert-dismissible" role="alert">' +
-							'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
-							'<strong>' + data['alerts'][i]['header'] + '</strong>' +
-							'<p>' + data['alerts'][i]['body'] + '</p>' +
-						'</div>';
-				}
-			}
+				createAlerts +=
+					'<div class="alert alert-' + data['alerts'][i]['assignment'] + ' alert-dismissible" role="alert">' +
+						'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+						'<strong>' + data['alerts'][i]['header'] + '</strong>' +
+						'<p>' + data['alerts'][i]['body'] + '</p>' +
+					'</div>';
+				};
+			};
+			
+			
 			document.getElementById('ALERTS').innerHTML = createAlerts;
 
 			//--------------------- Chart.js -----------------
-			var labels_data = [];
-			var cold_water_data = [];
-			var hot_water_data = [];
-			var electro_data = [];
-			for (var i=1; i<data['counters']['state'].length; i++){
-				labels_data.push(data['counters']['state'][i-1]['data'] + '-' + data['counters']['state'][i]['data']);
-				cold_water_data.push(parseFloat(data['counters']['state'][i]['cold_water'] - data['counters']['state'][i-1]['cold_water']).toFixed(3));
-				hot_water_data.push(parseFloat(data['counters']['state'][i]['hot_water'] - data['counters']['state'][i-1]['hot_water']).toFixed(3));
-				electro_data.push(parseFloat(data['counters']['state'][i]['electro'] - data['counters']['state'][i-1]['electro']).toFixed(2));
-			}
-			var barChartData_water = {
-				labels : labels_data,
-				datasets : [
-					{
-						fillColor : '#71B7F0',
-						strokeColor : '#71B7F0',
-						highlightFill: '#71B7F0',
-						highlightStroke: '#71B7F0',
-						data : cold_water_data
-					},
-					{
-						fillColor : '#F9655B',
-						strokeColor : '#F9655B',
-						highlightFill : '#F9655B',
-						highlightStroke : '#F9655B',
-						data : hot_water_data
-					}
-				]
+			if(diagramsShow){
+				var labels_data = [];
+				var cold_water_data = [];
+				var hot_water_data = [];
+				var electro_data = [];
+				for (var i=1; i<data['counters']['state'].length; i++){
+					labels_data.push(data['counters']['state'][i-1]['data'] + '-' + data['counters']['state'][i]['data']);
+					cold_water_data.push(parseFloat(data['counters']['state'][i]['cold_water'] - data['counters']['state'][i-1]['cold_water']).toFixed(3));
+					hot_water_data.push(parseFloat(data['counters']['state'][i]['hot_water'] - data['counters']['state'][i-1]['hot_water']).toFixed(3));
+					electro_data.push(parseFloat(data['counters']['state'][i]['electro'] - data['counters']['state'][i-1]['electro']).toFixed(2));
+				}
+				var barChartData_water = {
+					labels : labels_data,
+					datasets : [
+						{
+							fillColor : '#71B7F0',
+							strokeColor : '#71B7F0',
+							highlightFill: '#71B7F0',
+							highlightStroke: '#71B7F0',
+							data : cold_water_data
+						},
+						{
+							fillColor : '#F9655B',
+							strokeColor : '#F9655B',
+							highlightFill : '#F9655B',
+							highlightStroke : '#F9655B',
+							data : hot_water_data
+						}
+					]
+				};
+
+				var labels_Gk_data = [];
+				var hot_water_Gk_data = [];
+				for(var i=0; i<data['counters']['state'].length; i++){
+					labels_Gk_data.push(data['counters']['state'][i]['data']);
+					hot_water_Gk_data.push(parseFloat(data['counters']['state'][i]['hot_water_Gk']).toFixed(4));
+				}
+				var barChartData_water_Gk = {
+					labels : labels_Gk_data,
+					datasets : [
+						{
+							fillColor : "rgba(172,194,132,0.2)",
+							strokeColor : "#F9655B",
+							pointColor : "#fff",
+							pointStrokeColor : "#F9655B",
+							data : hot_water_Gk_data
+						}
+					]
+				};
+
+				var barChartData_electro = {
+					labels : labels_data,
+					datasets : [
+						{
+							fillColor : '#F9655B',
+							strokeColor : '#F9655B',
+							highlightFill : '#F9655B',
+							highlightStroke : '#F9655B',
+							data : electro_data
+						}
+					]
+				}
+
+				var ctx_water = document.getElementById("canvas_water").getContext("2d");
+				window.myBar1 = new Chart(ctx_water).Bar(barChartData_water, {
+					responsive : true
+				});
+				var ctx_water_Gk = document.getElementById("canvas_water_Gk").getContext("2d");
+				window.myBar2 = new Chart(ctx_water_Gk).Line(barChartData_water_Gk, {
+					responsive : true
+				});
+				var ctx_electro = document.getElementById("canvas_electro").getContext("2d");
+				window.myBar3 = new Chart(ctx_electro).Bar(barChartData_electro, {
+					responsive : true
+				});
 			};
-
-			var labels_Gk_data = [];
-			var hot_water_Gk_data = [];
-			for(var i=0; i<data['counters']['state'].length; i++){
-				labels_Gk_data.push(data['counters']['state'][i]['data']);
-				hot_water_Gk_data.push(parseFloat(data['counters']['state'][i]['hot_water_Gk']).toFixed(4));
-			}
-			var barChartData_water_Gk = {
-				labels : labels_Gk_data,
-				datasets : [
-					{
-						fillColor : "rgba(172,194,132,0.2)",
-						strokeColor : "#F9655B",
-						pointColor : "#fff",
-						pointStrokeColor : "#F9655B",
-						data : hot_water_Gk_data
-					}
-				]
-			};
-
-			var barChartData_electro = {
-				labels : labels_data,
-				datasets : [
-					{
-						fillColor : '#F9655B',
-						strokeColor : '#F9655B',
-						highlightFill : '#F9655B',
-						highlightStroke : '#F9655B',
-						data : electro_data
-					}
-				]
-			}
-
-			var ctx_water = document.getElementById("canvas_water").getContext("2d");
-			window.myBar1 = new Chart(ctx_water).Bar(barChartData_water, {
-				responsive : true
-			});
-			var ctx_water_Gk = document.getElementById("canvas_water_Gk").getContext("2d");
-			window.myBar2 = new Chart(ctx_water_Gk).Line(barChartData_water_Gk, {
-				responsive : true
-			});
-			var ctx_electro = document.getElementById("canvas_electro").getContext("2d");
-			window.myBar3 = new Chart(ctx_electro).Bar(barChartData_electro, {
-				responsive : true
-			});
 			//------------------------------------------------
 
 			//---------- установка картинок в слайдер --------
-			for(var i=0; i<data['counters']['last_img'].length; i++){
-				$('#carousel-example-generic').find('#img' + i).attr("src", data['counters']['last_img'][i]['path']);
-				$('#carousel-example-generic').find('#img' + i).css("width", "100%");
-				$('#carousel-example-generic').find('#img' + i + '_descr').html('<strong>' + data['counters']['last_img'][i]['description'] + '</strong>');
-			}
+			try{
+				for(var i=0; i<data['counters']['last_img'].length; i++){
+					$('#carousel-example-generic').find('#img' + i).attr("src", data['counters']['last_img'][i]['path']);
+					$('#carousel-example-generic').find('#img' + i).css("width", "100%");
+					$('#carousel-example-generic').find('#img' + i + '_descr').html('<strong>' + data['counters']['last_img'][i]['description'] + '</strong>');
+				}
+			}catch(er){console.log(er);};
 			//------------------------------------------------
 
 			//	Google map src
