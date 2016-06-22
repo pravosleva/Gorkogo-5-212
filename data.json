@@ -5,118 +5,125 @@
 		{
 			"assignment": "info",
 			"header": "* ГОРЯЧЕЕ В/С (подогрев) ИТУ",
-			"body": "Приблизительные данные с 29.08.2015 на момент 28.02.2016: 1.32 Гк<br>В соответствии с квитанцией (20.03.2016): +0.1558 Гк<br>В соответствии с квитанцией (20.04.2016): +0.4281 Гк<br>В соответствии с квитанцией (20.05.2016): +0.3439 Гк"
+			"body": "Приблизительные данные с 29.08.2015 на момент 28.02.2016: 1.32 Гк<br>В соответствии с квитанцией (20.03.2016): +0.1558 Гк<br>В соответствии с квитанцией (20.04.2016): +0.4281 Гк<br>В соответствии с квитанцией (20.05.2016): +0.3439 Гк<br>В соответствии с квитанцией (21.06.2016): +0.5828 Гк"
 		}
 	],
 	"tarifs": [
 		{
 			"header": "Расчет по тарифам с 01.01.2015 по 30.06.2016",
-			
-			"date1": 							"29.08.2015",
-			"start_holodnoe_vs_itu": 			"00027.739",
-			"start_gorya4ee_vs_itu": 			"00014.710",
-			"start_gorya4ee_vs_podogrev_itu": 	"0.0000",
-			"start_electrosnab_itu": 			"000874.99",
-			"start_vodootved": 					"0.00",
-			
-			"tarif_holodnoe_vs_itu": 			"20.9",
-			"tarif_gorya4ee_vs_itu": 			"20.9",
-			"tarif_gorya4ee_vs_podogrev_itu": 	"1587.81",
-			"tarif_electrosnab_itu": 			"3.18",
-			"tarif_vodootved": 					"27.65",
-			
-			"date2": 							"20.05.2016",
-			"finish_holodnoe_vs_itu": 			"00056.767",
-			"finish_gorya4ee_vs_itu": 			"00051.714",
-			"finish_gorya4ee_vs_podogrev_itu": 	"2.2478",
-			"finish_electrosnab_itu": 			"002462.75",
-			
-			"RUB_opla4eno": 					"11800.00"
+
+			"date1": "29.08.2015",
+			"start_holodnoe_vs_itu": "00027.739",
+			"start_gorya4ee_vs_itu": "00014.710",
+			"start_gorya4ee_vs_podogrev_itu": "0.0000",
+			"start_electrosnab_itu": "000874.99",
+			"start_vodootved": "0.00",
+
+			"tarif_holodnoe_vs_itu": "20.9",
+			"tarif_gorya4ee_vs_itu": "20.9",
+			"tarif_gorya4ee_vs_podogrev_itu": "1587.81",
+			"tarif_electrosnab_itu": "3.18",
+			"tarif_vodootved": "27.65",
+
+			"date2": "21.06.2016",
+			"finish_holodnoe_vs_itu": "00061.861",
+			"finish_gorya4ee_vs_itu": "00058.032",
+			"finish_gorya4ee_vs_podogrev_itu": "2.8306",
+			"finish_electrosnab_itu": "002630.57",
+
+			"RUB_opla4eno": "11800.00"
 		},
 		{
 			"header": "Расчет по тарифам с 01.07.2016 по 31.12.2016",
-			
-			"date1": 							"d1.m1.2016",
-			"start_holodnoe_vs_itu": 			"00000.000",
-			"start_gorya4ee_vs_itu": 			"00000.000",
-			"start_gorya4ee_vs_podogrev_itu": 	"0.0000",
-			"start_electrosnab_itu": 			"000000.00",
-			"start_vodootved": 					"0.00",
-			
-			"tarif_holodnoe_vs_itu": 			"21.66",
-			"tarif_gorya4ee_vs_itu": 			"21.66",
-			"tarif_gorya4ee_vs_podogrev_itu": 	"1641.85",
-			"tarif_electrosnab_itu": 			"3.37",
-			"tarif_vodootved": 					"28.54",
-			
-			"date2": 							"d2.m2.2016",
-			"finish_holodnoe_vs_itu": 			"00000.000",
-			"finish_gorya4ee_vs_itu": 			"00000.000",
-			"finish_gorya4ee_vs_podogrev_itu": 	"0.0000",
-			"finish_electrosnab_itu": 			"000000.00",
-			
-			"RUB_opla4eno": 					"0.00"
+
+			"date1": "d1.m1.2016",
+			"start_holodnoe_vs_itu": "00000.000",
+			"start_gorya4ee_vs_itu": "00000.000",
+			"start_gorya4ee_vs_podogrev_itu": "0.0000",
+			"start_electrosnab_itu": "000000.00",
+			"start_vodootved": "0.00",
+
+			"tarif_holodnoe_vs_itu": "21.66",
+			"tarif_gorya4ee_vs_itu": "21.66",
+			"tarif_gorya4ee_vs_podogrev_itu": "1641.85",
+			"tarif_electrosnab_itu": "3.37",
+			"tarif_vodootved": "28.54",
+
+			"date2": "d2.m2.2016",
+			"finish_holodnoe_vs_itu": "00000.000",
+			"finish_gorya4ee_vs_itu": "00000.000",
+			"finish_gorya4ee_vs_podogrev_itu": "0.0000",
+			"finish_electrosnab_itu": "000000.00",
+
+			"RUB_opla4eno": "0.00"
 		}
 	],
 	"counters": {
 		"state": [
 			{
-				"data": 						"28.02.16",
-				"cold_water": 					"00044.973",
-				"hot_water": 					"00037.103",
-				"hot_water_Gk":					"0.22",
-				"electro": 						"002016.97"
+				"data": "28.02.16",
+				"cold_water": "00044.973",
+				"hot_water": "00037.103",
+				"hot_water_Gk": "0.22",
+				"electro": "002016.97"
 			},
 			{
-				"data": 						"20.03.16",
-				"cold_water": 					"00045.872",
-				"hot_water": 					"00040.620",
-				"hot_water_Gk":					"0.1558",
-				"electro": 						"002143.83"
+				"data": "20.03.16",
+				"cold_water": "00045.872",
+				"hot_water": "00040.620",
+				"hot_water_Gk": "0.1558",
+				"electro": "002143.83"
 			},
 			{
-				"data": 						"20.04.16",
-				"cold_water": 					"00052.829",
-				"hot_water": 					"00046.729",
-				"hot_water_Gk":					"0.4281",
-				"electro": 						"002306.41"
+				"data": "20.04.16",
+				"cold_water": "00052.829",
+				"hot_water": "00046.729",
+				"hot_water_Gk": "0.4281",
+				"electro": "002306.41"
 			},
 			{
-				"data": 						"20.05.16",
-				"cold_water": 					"00056.767",
-				"hot_water": 					"00051.714",
-				"hot_water_Gk":					"0.3439",
-				"electro": 						"002462.75"
+				"data": "20.05.16",
+				"cold_water": "00056.767",
+				"hot_water": "00051.714",
+				"hot_water_Gk": "0.3439",
+				"electro": "002462.75"
+			},
+			{
+				"data": "21.06.16",
+				"cold_water": "00061.861",
+				"hot_water": "00058.032",
+				"hot_water_Gk": "0.5828",
+				"electro": "002630.57"
 			}
 		],
 		"last_img": [
 			{
-				"path": 						"./counters/2016-05-20/7.JPG",
-				"description":					"Холодная вода 2016-05-20"
+				"path": "./counters/2016-06-21/7.JPG",
+				"description": "Холодная вода 2016-05-20"
 			},
 			{
-				"path": 						"./counters/2016-05-20/6.JPG",
-				"description":					"Горячая вода 2016-05-20"
+				"path": "./counters/2016-06-21/6.JPG",
+				"description": "Горячая вода 2016-05-20"
 			},
 			{
-				"path": 						"./counters/2016-05-20/1.JPG",
-				"description":					"Электросчетчик 2016-05-20"
+				"path": "./counters/2016-06-21/1.JPG",
+				"description": "Электросчетчик 2016-05-20"
 			},
 			{
-				"path": 						"./counters/2016-05-20/2.JPG",
-				"description":					"Электросчетчик 2016-05-20"
+				"path": "./counters/2016-06-21/2.JPG",
+				"description": "Электросчетчик 2016-05-20"
 			},
 			{
-				"path": 						"./counters/2016-05-20/3.JPG",
-				"description":					"Электросчетчик 2016-05-20"
+				"path": "./counters/2016-06-21/3.JPG",
+				"description": "Электросчетчик 2016-05-20"
 			},
 			{
-				"path": 						"./counters/2016-05-20/4.JPG",
-				"description":					"Электросчетчик 2016-05-20"
+				"path": "./counters/2016-06-21/4.JPG",
+				"description": "Электросчетчик 2016-05-20"
 			},
 			{
-				"path": 						"./counters/2016-05-20/5.JPG",
-				"description":					"Электросчетчик 2016-05-20"
+				"path": "./counters/2016-06-21/5.JPG",
+				"description": "Электросчетчик 2016-05-20"
 			}
 		]
 	}
