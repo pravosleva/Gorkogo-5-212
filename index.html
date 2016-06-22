@@ -572,12 +572,14 @@
 				'</div>';
 			//	Доп. оповещения: создаем столько, сколько их в файле data.json:
 			for(var i=0; i<data['alerts'].length; i++){//в рамках каждого тарифа
-				createAlerts +=
-					'<div class="alert alert-' + data['alerts'][i]['assignment'] + ' alert-dismissible" role="alert">' +
-						'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
-						'<strong>' + data['alerts'][i]['header'] + '</strong>' +
-						'<p>' + data['alerts'][i]['body'] + '</p>' +
-					'</div>';
+				if(data['alerts'][i]['visible'] == "true"){
+					createAlerts +=
+						'<div class="alert alert-' + data['alerts'][i]['assignment'] + ' alert-dismissible" role="alert">' +
+							'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+							'<strong>' + data['alerts'][i]['header'] + '</strong>' +
+							'<p>' + data['alerts'][i]['body'] + '</p>' +
+						'</div>';
+				}
 			}
 			document.getElementById('ALERTS').innerHTML = createAlerts;
 
